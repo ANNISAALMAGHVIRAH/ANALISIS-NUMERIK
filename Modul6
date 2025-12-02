@@ -28,7 +28,7 @@ def RK4(x0, y0, h, xn):
 
 # Mendefinisikan fungsi analitiknya
 def analitik(x):
-  return x*2 + 2*x + 1 -0.5* np.exp(x)
+  return x**2 + 2*x + 1 -0.5* np.exp(x)
 
 # Menghitung nilai y pada x = 0.2
 x0 = 0
