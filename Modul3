@@ -47,38 +47,57 @@ print("z =", solusi[2])
 
 
 import numpy as np
-def gauss_numpy(A, B):
+
+# Soal 2:
+# 2x + y + z = 9
+# x + y + z = 6
+# 3x - y + 2z = 7
+
+A = np.array([[2, 1, 1],
+               [1, 1, 1],
+               [3, -1, 2]])
+
+B = np.array([9, 6, 7])
+
+def gauss_elimination(A, B):
     A = A.astype(float)
     B = B.astype(float)
-    n = len(B)
-    for k in range(n):
-        if A[k, k] == 0:
-            for r in range(k+1, n):
-                if A[r, k] != 0:
-                    A[[k, r]] = A[[r, k]]
-                    B[k], B[r] = B[r], B[k]
+    n = len(A)
+
+    for i in range(n):
+        # Jika pivot 0, tukar baris
+        if A[i, i] == 0:
+            for j in range(i + 1, n):
+                if A[j, i] != 0:
+                    A[[i, j]] = A[[j, i]]
+                    B[i], B[j] = B[j], B[i]
                     break
+
+        # Eliminasi baris di bawah pivot
         else:
-          for i in range(k+1, n):
-              factor = A[i, k] / A[k, k]
-              A[i, k:] -= factor * A[k, k:]
-              B[i] -= factor * B[k]
+          for k in range(i + 1, n):
+            faktor = A[k, i] / A[i, i]
+            A[k, i:] -= faktor * A[i, i:]
+            B[k] -= faktor * B[i]
+
+    print("Matriks A setelah eliminasi:\n", A)
+    print("Matriks B setelah eliminasi:", B)
+
+    # Substitusi balik
     x = np.zeros(n)
-    for i in range(n-1, -1, -1):
-        x[i] = (B[i] - np.dot(A[i, i+1:], x[i+1:])) / A[i, i]
+    for i in range(n - 1, -1, -1):
+        x[i] = (B[i] - np.dot(A[i, i + 1:], x[i + 1:])) / A[i, i]
+
     return x
-A = np.array([
-    [1, 1, 2],
-    [1, 1, 1],
-    [3, -1, 2]])
-B = np.array([9,6,7])
-solusi = gauss_numpy(A, B)
-print("Nilai A setelah eliminasi:\n", A)
-print("Nilai B setelah eliminasi:", B)
-print("Solusi")
-print("x =", solusi[0])
-print("y =", solusi[1])
-print("z =", solusi[2])
+
+
+hasil2 = gauss_elimination(A, B)
+
+print("=== nomor 2 ===")
+print(f"x = {hasil2[0]:.2f}")
+print(f"y = {hasil2[1]:.2f}")
+print(f"z = {hasil2[2]:.2f}")
+
 
 
 
